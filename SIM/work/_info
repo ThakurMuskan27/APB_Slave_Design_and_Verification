@@ -1,0 +1,80 @@
+m255
+K4
+z2
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/MUSKAN THAKUR/verilog practice/apb/SIM
+T_opt
+!s110 1741238774
+V70TF7ZhCD0dW_13A_CIn11
+04 9 4 work apb_slave fast 0
+=1-505a65c7fa0d-67c931f6-1da-20e0
+o-quiet -auto_acc_if_foreign -work work
+Z1 tCvgOpt 0
+n@_opt
+Z2 OL;O;10.7c;67
+R0
+T_opt1
+!s110 1741238975
+V_00>[`E9Wa2QL25ZCNUn02
+Z3 04 6 4 work apb_tb fast 0
+=1-505a65c7fa0d-67c932be-3bc-1e78
+Z4 o-quiet -auto_acc_if_foreign -work work +acc
+R1
+n@_opt1
+R2
+R0
+T_opt2
+!s110 1741251906
+V9:4_eeG88Qn9f;?>VlQbL3
+R3
+=1-505a65c7fa0d-67c96542-cc-3234
+R4
+R1
+n@_opt2
+R2
+vapb_slave
+Z5 !s110 1741251896
+!i10b 1
+!s100 ]FVRen[O`^Cnz6Ji2551U0
+I3[^zD:]bQ0CXKMoW@MT0n2
+Z6 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1741248582
+8..\RTL\apb_change.v
+F..\RTL\apb_change.v
+L0 1
+Z7 OL;L;10.7c;67
+r1
+!s85 0
+31
+Z8 !s108 1741251895.000000
+Z9 !s107 ..\TB\apb_tb.v|..\RTL\apb_change.v|
+Z10 !s90 +acc|..\RTL\apb_change.v|..\TB\apb_tb.v|
+!i113 0
+Z11 o+acc -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+vapb_tb
+R5
+!i10b 1
+!s100 _M?2o_Kmf?8TWEY`I_h:R3
+I13<SamHOzTEzb<4fDTlO]0
+R6
+R0
+w1741248356
+8..\TB\apb_tb.v
+F..\TB\apb_tb.v
+L0 1
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 0
+R11
+R1

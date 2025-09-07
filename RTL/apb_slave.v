@@ -40,61 +40,68 @@ module apb_slave (pclk, pwrite, pwdata, preset, paddr, psel, penable, prdata, pr
 					      nx_state <= setup;
 				      end                        	      //state change at idle 
 				    else nx_state <= idle;
-			      end 
+			        end 
 
 		      setup : begin 
-		      		  if ( penable && psel && pready ) begin          //state change at setup
+                              if ( penable && psel ) begin          //state change at setup
 					    nx_state <= access;
 				    end
-				   else nx_state <= setup;
-			    end 
+				    else nx_state <= setup;
+			      end 
 
 		    access : begin
-
-				if ( penable && pready ) begin                   //transfer with slave ready 
+			    if (  psel && penable && pready ) begin                   //transfer with slave ready 
 					nx_state <= setup;
-				end 
-				/*else if ( penable && !pready ) begin             //transfer but slave not ready
+				end
+			    else if ( psel && penable && !pready ) begin             //transfer but slave not ready
 					nx_state <= access;
-				end*/
-				else nx_state <= idle;
+				end
+		            else if ( psel && !penable )
+                                        nx_state <= setup;
+                            else if ( !psel )
+                                       nx_state <= idle;
  
-		       	     end
+		            end
 		   default : nx_state = idle;
 	   endcase
 	   
-	   pr_state <= nx_state;               //updating state
-
    end 
 end 
  
  always @(nx_state) begin 
-
+	 
+	 pr_state <= nx_state;               //updating state
+	 
 	 case (nx_state)
 
 		 idle : begin 
-		 	prdata <= 32'b0;
+		 	       prdata <= 32'b0;
+				   pslvrr <= 1'b0;
 		        end 
 
 		setup : begin
-			prdata <= 32'b0;
-			end 
+			       prdata <= 32'b0;
+				   pslvrr <= 1'b0;
+			    end 
 
 		access : begin
-			if ( pwrite ) begin
-				if ( paddr >= (depth-1) ) begin           //if pslvrr no write operation
+			
+			 if ( pwrite && pready) begin
+				 
+				 if ( paddr >= (depth-1) ) begin           //if pslvrr no write operation
 					pslvrr <= 1'b1;
-				end
-				else begin
+				  end
+				  
+				  else begin
 					ram[paddr] <= pwdata;           //write data 
 					pslvrr <= 1'b0;
-				end 
+				   end 
 			
 				/*for ( i=0; i<=width/8; i=i+1 )begin 
 					ram[addr][8i+7 : 8i] = pstrb[i] && pwdata[8i+7 : 8i];  */
 			end
 			
-			else /*if ( pready && !pwrite )*/ begin
+			else if ( pready && !pwrite ) begin
 				if ( paddr >= (depth-1) ) begin
 					pslvrr <= 1'b1;
 				end 
@@ -104,10 +111,15 @@ end
 				end 
 			end
 			end
-		default : prdata = 32'b0;
+		default : begin
+			prdata <= 32'b0;
+			pslvrr <= 1'b0;
+		end
 
 	endcase
 end 
+
+
 
  always @(*) begin
 

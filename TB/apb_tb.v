@@ -2,7 +2,7 @@ module apb_tb ();
 
  reg tb_clk, tb_write, tb_reset, tb_sel, enable;
  reg [31:0] tb_wdata;
- reg [31:0] tb_addr;
+  reg [5:0] tb_addr;
  //reg [4:0] strobe; 
  wire [31:0] tb_rdata;
  wire ready;
@@ -45,33 +45,46 @@ module apb_tb ();
 
 	   delay(1);
 	   enable = 1'b1;  //write
-
-	   delay (1);
+       
+       wait(ready === 1'b1 );
+       delay (1); 
 	   enable = 1'b0;
 	   tb_sel = 1'b0;
-	   delay(1);
-
+	   
+       delay(1);
 	   tb_sel=1'b1;
 	   read ( 6'b000000 );
-	   delay(1);
+	   
+       delay(1);
 	   enable=1'b1; //read 
 
-	   delay(3);  //transfer and slave ready
-
-	   tb_sel = 1'b0;
+       wait(ready === 1'b1 );
+       delay(1);  //transfer and slave ready // psel = 1 after access/transfer
 	   enable = 1'b0;
-
-	   delay(1);
 	   tb_sel = 1'b1;	  
 	   write ( {$random} , 6'b111111 );
 
 	   delay(1);
 	   enable = 1'b1; //verifying pslvrr
 
-	   delay (4);
-
+       delay (1);
+	   tb_sel = 1'b0;
+	   enable = 1'b0;
+       
+       delay(1);
+	   tb_sel=1'b1;
+       read ( 6'b111111 );
+       
+       delay(1);
+	   enable=1'b1; //read 
+       
+       delay(4);
 	   $finish;
 
    end 
-   endmodule
-
+  
+   initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars;
+   end
+endmodule
